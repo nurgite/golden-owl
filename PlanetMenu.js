@@ -1,57 +1,64 @@
+// PlanetMenu.js
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+const worlds = [
+  { name: "Lumina", color: "#FFD700" },
+  { name: "Umbra", color: "#4B0082" },
+  { name: "Aether", color: "#00CED1" },
+  { name: "Terranox", color: "#8B4513" }
+];
 
-export default function PlanetMenu() {
-  const [selectedPlanet, setSelectedPlanet] = useState(null);
+// Create container
+const container = document.createElement("div");
+container.style.display = "flex";
+container.style.justifyContent = "center";
+container.style.alignItems = "center";
+container.style.height = "100vh";
+container.style.background = "radial-gradient(circle at center, #111 0%, #000 100%)";
+container.style.flexWrap = "wrap";
+container.style.gap = "2rem";
 
-  const planets = [
-    { name: "Lumina", color: "#fcd34d", focus: "Phonics", sound: "/sounds/lumina.mp3" },
-    { name: "Nyx Deep", color: "#4b5563", focus: "Word Families", sound: "/sounds/nyx.mp3" },
-    { name: "Mirror Pools", color: "#93c5fd", focus: "Sight Words", sound: "/sounds/mirror.mp3" },
-    { name: "Solari Citadel", color: "#fca5a5", focus: "Grammar", sound: "/sounds/solari.mp3" },
-    { name: "Umbra Hollow", color: "#6b7280", focus: "Comprehension", sound: "/sounds/umbra.mp3" },
-  ];
+// Add title
+const title = document.createElement("h1");
+title.textContent = "Choose Your World";
+title.style.color = "white";
+title.style.width = "100%";
+title.style.textAlign = "center";
+title.style.fontSize = "3rem";
+title.style.marginBottom = "2rem";
+container.appendChild(title);
 
-  const playSound = (src) => {
-    const audio = new Audio(src);
-    audio.play();
-  };
+// Add planets
+worlds.forEach(world => {
+  const button = document.createElement("div");
+  button.textContent = world.name;
+  button.style.width = "120px";
+  button.style.height = "120px";
+  button.style.borderRadius = "50%";
+  button.style.background = world.color;
+  button.style.display = "flex";
+  button.style.alignItems = "center";
+  button.style.justifyContent = "center";
+  button.style.color = "#000";
+  button.style.fontWeight = "bold";
+  button.style.cursor = "pointer";
+  button.style.boxShadow = "0 0 15px white";
+  button.style.transition = "transform 0.3s ease";
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 to-black text-white">
-      <h1 className="text-4xl font-bold mb-8">Choose Your World</h1>
-      <div className="grid grid-cols-2 gap-6">
-        {planets.map((planet, index) => (
-          <motion.button
-            key={planet.name}
-            className="w-40 h-40 rounded-full shadow-lg flex items-center justify-center text-xl font-semibold"
-            style={{ backgroundColor: planet.color }}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => {
-              setSelectedPlanet(planet);
-              playSound(planet.sound);
-            }}
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-          >
-            {planet.name}
-          </motion.button>
-        ))}
-      </div>
+  button.addEventListener("mouseenter", () => {
+    button.style.transform = "scale(1.1)";
+  });
 
-      {selectedPlanet && (
-        <motion.div
-          className="mt-10 p-6 bg-white text-black rounded-xl shadow-xl max-w-sm text-center"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-        >
-          <h2 className="text-2xl font-bold mb-2">{selectedPlanet.name}</h2>
-          <p className="text-md">Focus: {selectedPlanet.focus}</p>
-        </motion.div>
-      )}
-    </div>
-  );
-}
+  button.addEventListener("mouseleave", () => {
+    button.style.transform = "scale(1)";
+  });
+
+  button.addEventListener("click", () => {
+    alert(`Entering ${world.name}... 🌌`);
+    // TODO: You can trigger a scene change or animation here
+  });
+
+  container.appendChild(button);
+});
+
+// Mount to root
+document.getElementById("root").appendChild(container);
