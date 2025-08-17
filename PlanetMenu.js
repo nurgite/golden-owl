@@ -1,13 +1,21 @@
 // PlanetMenu.js
 
 const worlds = [
-  { name: "Lumina", color: "#FFD700" },
-  { name: "Umbra", color: "#4B0082" },
-  { name: "Aether", color: "#00CED1" },
-  { name: "Terranox", color: "#8B4513" }
+  { name: "Lumina", color: "#FFD700", link: "lumina.html" },
+  { name: "Umbra", color: "#4B0082", link: "umbra.html" },
+  { name: "Aether", color: "#00CED1", link: "aether.html" },
+  { name: "Terranox", color: "#8B4513", link: "terranox.html" }
 ];
 
-// Create container
+// 🎵 Add background music
+const music = new Audio("space-music.mp3");
+music.loop = true;
+music.volume = 0.3;
+music.play().catch(() => {
+  console.log("User interaction needed to start music.");
+});
+
+// 🌌 Make the container
 const container = document.createElement("div");
 container.style.display = "flex";
 container.style.justifyContent = "center";
@@ -17,7 +25,7 @@ container.style.background = "radial-gradient(circle at center, #111 0%, #000 10
 container.style.flexWrap = "wrap";
 container.style.gap = "2rem";
 
-// Add title
+// 🌟 Title
 const title = document.createElement("h1");
 title.textContent = "Choose Your World";
 title.style.color = "white";
@@ -27,38 +35,50 @@ title.style.fontSize = "3rem";
 title.style.marginBottom = "2rem";
 container.appendChild(title);
 
-// Add planets
+// 🪐 Create planets
 worlds.forEach(world => {
-  const button = document.createElement("div");
-  button.textContent = world.name;
-  button.style.width = "120px";
-  button.style.height = "120px";
-  button.style.borderRadius = "50%";
-  button.style.background = world.color;
-  button.style.display = "flex";
-  button.style.alignItems = "center";
-  button.style.justifyContent = "center";
-  button.style.color = "#000";
-  button.style.fontWeight = "bold";
-  button.style.cursor = "pointer";
-  button.style.boxShadow = "0 0 15px white";
-  button.style.transition = "transform 0.3s ease";
+  const planet = document.createElement("div");
+  planet.textContent = world.name;
+  planet.style.width = "120px";
+  planet.style.height = "120px";
+  planet.style.borderRadius = "50%";
+  planet.style.background = world.color;
+  planet.style.display = "flex";
+  planet.style.alignItems = "center";
+  planet.style.justifyContent = "center";
+  planet.style.color = "#000";
+  planet.style.fontWeight = "bold";
+  planet.style.cursor = "pointer";
+  planet.style.boxShadow = "0 0 15px white";
+  planet.style.transition = "transform 0.3s ease";
+  planet.style.animation = "spin 10s linear infinite";
 
-  button.addEventListener("mouseenter", () => {
-    button.style.transform = "scale(1.1)";
+  // 🌀 Hover scale effect
+  planet.addEventListener("mouseenter", () => {
+    planet.style.transform = "scale(1.2)";
   });
 
-  button.addEventListener("mouseleave", () => {
-    button.style.transform = "scale(1)";
+  planet.addEventListener("mouseleave", () => {
+    planet.style.transform = "scale(1)";
   });
 
-  button.addEventListener("click", () => {
-    alert(`Entering ${world.name}... 🌌`);
-    // TODO: You can trigger a scene change or animation here
+  // 🛸 Click takes you to a new page (placeholder)
+  planet.addEventListener("click", () => {
+    window.location.href = world.link; // change to whatever you want!
   });
 
-  container.appendChild(button);
+  container.appendChild(planet);
 });
 
-// Mount to root
+// 🪄 Add everything to page
 document.getElementById("root").appendChild(container);
+
+// 🌠 Add spinning animation
+const style = document.createElement("style");
+style.textContent = `
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+`;
+document.head.appendChild(style);
